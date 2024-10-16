@@ -1,0 +1,88 @@
+# BIG OR SMALL BETTING GAME
+
+import random
+
+def main():
+    balance = 0
+
+    while True:
+        deposit_or_withdrawal = input("Deposit or Withdrawal (D/W), or 'Q' to quit: ").lower()
+
+        if deposit_or_withdrawal == "d":
+            balance = handle_deposit(balance)  # Update balance after deposit
+        elif deposit_or_withdrawal == "w":
+            balance = handle_withdrawal(balance)  # Update balance after withdrawal
+        elif deposit_or_withdrawal == "q":
+            print("Thank you for using the banking system. Goodbye!")
+            break
+        else:
+            print("Invalid choice!")
+
+        if balance > 0:
+            balance = play_bet(balance)  # Update balance after playing bet
+            break
+
+def handle_deposit(balance):
+    try:
+        deposit = float(input("How much do you deposit: $"))
+        if deposit < 0:
+            print("Invalid amount. Please enter a positive number.")
+        else:
+            balance += deposit
+            print(f"Deposit successful. New balance: ${balance:.2f}")
+    except ValueError:
+        print("Invalid amount.")
+    return balance  # Return the updated balance
+
+def handle_withdrawal(balance):
+    try:
+        withdrawal = float(input("How much do you withdraw: $"))
+        print(f"your current balance:${balance}")
+        if withdrawal > balance:
+            print("Insufficient balance.")
+        else:
+            balance -= withdrawal
+            print(f"Withdrawal successful. New balance: ${balance:.2f}")
+    except ValueError:
+        print("Invalid amount.")
+    return balance  # Return the updated balance
+
+def play_bet(balance):
+    while True:
+        option = input("Choose one option (B/S): Big or Small: ").lower()
+        random_option = ["small", "big"]
+        computer_choice = random.choice(random_option)
+
+        try:
+            bet = int(input("Enter your bet: $"))
+            if bet > balance:
+                print("Insufficient balance to place this bet.")
+                continue  # Restart the loop if bet is too high
+        except ValueError:
+            print("Please enter a valid number for your bet.")
+            continue  # Restart the loop if input is invalid
+
+        print(f"Computer chose: {computer_choice.capitalize()}")
+
+        if (option == 'b' and computer_choice == "big") or (option == 's' and computer_choice == "small"):
+            print(f"You won: ${bet}")
+            balance += bet  # Add the bet amount to balance if won
+        else:
+            print(f"You lose: ${bet}")
+            balance -= bet  # Deduct the bet amount from balance if lost
+
+        print(f"Your balance is now: ${balance:.2f}")
+        
+        if balance <= 0:
+            print("You have run out of balance. Game over.")
+            break
+
+        play_again = input("Do you want to play again (Y/N): ").lower()
+        if play_again != 'y':
+            print("Thank you for playing!")
+            break
+
+    return balance  # Return the updated balance
+
+if __name__ == "__main__":
+    main()
