@@ -1,0 +1,16 @@
+# gussing_number_in_py
+
+import random
+target=random.randint(1,100)
+while True:
+    guessval=input("guess the target or Quit(Q): ")
+    if guessval=="Q":
+        break
+    guessval=int(guessval)
+    if guessval==target:
+        print("--well done! you are guessing exact target--")
+    elif guessval<target:
+        print("--your number was too small! Take a bigger guess--")
+    else:
+        print("--your number was too big! Take a smaller guess--")
+print("----GAME OVER--------")
